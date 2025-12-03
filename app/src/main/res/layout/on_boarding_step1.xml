@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+    <ImageView
+        android:id="@+id/ivOnboarding"
+        android:layout_width="wrap_content"
+        android:layout_height="280dp"
+        android:src="@drawable/ic_step1"
+        android:contentDescription="@string/onboarding1_image_description"
+        android:layout_marginBottom="40dp"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding1_subtitle"
+        android:textAlignment="center"
+        android:textColor="#333333"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding1_paragraph"
+        android:textAlignment="center"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp" />
+
+</LinearLayout>

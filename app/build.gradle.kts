@@ -17,6 +17,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures{
+        viewBinding = true
+        buildConfig = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -36,7 +40,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.cardview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

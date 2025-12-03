@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/ivOnboarding"
+            android:layout_width="wrap_content"
+            android:layout_height="280dp"
+            android:src="@drawable/ic_step3"
+            android:contentDescription="@string/onboarding3_image_description"
+            android:layout_marginBottom="40dp"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding3_subtitle"
+            android:textAlignment="center"
+            android:textColor="#333333"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding3_paragraph"
+            android:textAlignment="center"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Recompensa 1 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#F0FFF4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="@string/onboarding3_reward1_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#2C9B7D"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:text="@string/onboarding3_reward1_discount"
+                        android:textColor="#333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:text="@string/onboarding3_reward_value"
+                        android:textColor="#2C9B7D"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_ropa"
+                    android:contentDescription="@string/onboarding3_reward1_image_des" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Recompensa 2 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#F0FFF4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="@string/onboarding3_reward2_text"
+                        android:textColor="#2C9B7D"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:text="@string/onboarding3_reward2_discount"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:text="@string/onboarding3_reward_value"
+                        android:textColor="#2C9B7D"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_cafe"
+                    android:contentDescription="@string/onboarding3_reward2_image_des" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

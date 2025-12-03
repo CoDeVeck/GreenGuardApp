@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/logo_green"
+            android:contentDescription="@string/splash_logo_desc" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_title"
+            android:textColor="#333333"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="@string/register_subtitle"
+            android:textAlignment="center"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/register_name_label"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_user"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_name_hint"
+                android:inputType="textPersonName"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvEmailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_email_label"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_sobre"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_email_hint"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvPasswordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/login_password_label"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_password_hint"
+                android:inputType="textPassword"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvConfirmPasswordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_confirm_password_label"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="password_toggle"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_confirm_password_hint"
+                android:inputType="textPassword"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/cbTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/green_primary" />
+
+            <TextView
+                android:id="@+id/tvTerms"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="#666666" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/register_button_enter"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            app:backgroundTint="#4CAF50"
+            app:cornerRadius="8dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_yes_account"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_login"
+                android:textColor="#2C9B7D"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
