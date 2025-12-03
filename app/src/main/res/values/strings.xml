@@ -68,9 +68,92 @@
     <string name="onboarding3_reward2_image_des">Cafe Descuento</string>
     <string name="onboarding3_reward_value">Vale 100 Puntos</string>
 
+    <!-- Main -->
+    <string name="main_profile_picture">Perfil Imagen</string>
+    <string name="main_welcome_label">Bienvenido de nuevo,</string>
+    <string name="main_user_label">Nombre del usuario</string>
+    <string name="main_notification_picture">Notificaciones</string>
+    <string name="main_points_label">Puntos Totales</string>
+    <string name="main_points_value">$ %1$s</string>
+    <string name="main_button_redeem">Canjear</string>
+    <string name="main_report_picture">Reporte Imagen</string>
+    <string name="main_report_value">15</string>
+    <string name="main_report_text">Reportes\nRealizados</string>
+    <string name="main_points_monthly_picture">Puntos Mensuales Imagen</string>
+    <string name="main_points_monthly_text">Puntos Mensuales</string>
+    <string name="main_points_monthly_value">350</string>
+    <string name="main_community_picture">Comunidad Imagen</string>
+    <string name="main_community_text">Impacto comunitario</string>
+    <string name="main_community_paragraph">Tus reportes ayudan a mejorar la calidad de vida en tu vecindario.</string>
+    <string name="main_people_benefited">%1$,d personas beneficiadas</string>
+    <string name="main_recent_activity_title">Actividad Reciente</string>
+    <string name="main_category_title">Categorías Populares</string>
+    <string name="main_check_picture">Check Imagen</string>
 
+    <!-- Item Category Main -->
+    <string name="item_category_picture">Imagen Categoria</string>
+    <string name="item_category_title">Titulo Categoria</string>
+    <string name="item_category_count">%1$d reportes</string>
 
+    <!-- Item Recent Activity Main -->
+    <string name="item_recente_activity_picture">Actividad  Reciente Imagen</string>
+    <string name="item_recente_activity_title">Titulo de la actividad</string>
+    <string name="item_recente_activity_fecha">25 Jul, 2024</string>
+    <string name="item_recente_activity_status">Proceso</string>
 
+    <!-- Item Menu -->
+    <string name="item_menu_home">Inicio</string>
+    <string name="item_menu_report">Reportes</string>
+    <string name="item_menu_camera">Cámara</string>
+    <string name="item_menu_chat">Chat</string>
+    <string name="item_menu_cupon">Cupones</string>
+    <string name="item_menu_profile">Perfil</string>
 
+    <!-- Classification -->
+    <string name="classification_button_back">Regresar</string>
+    <string name="classification_title">Clasificación IA de Reporte</string>
+    <string name="classification_image_report">Imagen Incidente</string>
+    <string name="classification_button_edit">Editar Imagen</string>
+    <string name="classification_category_detected">Categoria Detectada</string>
+    <string name="classification_peligro_detected">Peligro Detectado</string>
+    <string name="classification_process_picture">Icono Proceso</string>
+    <string name="classification_process_title">Análisis de IA</string>
+    <string name="classification_process_analysis_1">Detección 1</string>
+    <string name="classification_process_analysis_2">Detección 2</string>
+    <string name="classification_process_analysis_3">Detección 3</string>
+    <string name="classification_check_picture">Check Imagen</string>
+    <string name="classification_check_title">Aviso de Prevención</string>
+    <string name="classification_check_information">La clasificación no es automática y puedes cambiarla después. Solo hemos verificado los tóxicos.</string>
+    <string name="classification_subtitle_description">Descripción del Incidente</string>
+    <string name="classification_hint_description">Añade detalles sobre el incidente aquí...</string>
+    <string name="classification_location_picture">Ubicacion Imagen</string>
+    <string name="classification_location_text">Su ubicación aqui</string>
+    <string name="classification_points_subtitle">Puntos estimados</string>
+    <string name="classification_points_value">%1$d Puntos</string>
+    <string name="classification_level_incident_subtitle">Incidente de Nivel </string>
+    <string name="classification_info_picture">Información Imagen</string>
+    <string name="classification_info_text">Los reportes se actualizarán tras la verificación.</string>
+    <string name="classification_button_enter">Enviar Reporte</string>
+    <string name="classification_button_cancel">Cancelar</string>
 
+    <!-- Camera -->
+    <string name="camera_title">Cámara</string>
+    <string name="camera_flash_picture">Flash Cámara</string>
+    <string name="camera_flip_camera">Cambiar Cámara</string>
+    <string name="camera_gallery_picture">Galeria</string>
+    <string name="camera_loading_picture">Procesando imagen...</string>
+    <string name="camera_button_capture">Capturar Foto</string>
+    <string name="camera_button_close">Cerrar</string>
+
+    <!-- Confirm Report -->
+    <string name="confirm_report_button_back">Regresar</string>
+    <string name="confirm_report_title">Confirmación de Reporte</string>
+    <string name="confirm_report_picture_image">Resultado</string>
+    <string name="confirm_report_message_success">¡Reporte enviado\nexitosamente!</string>
+    <string name="confirm_report_message_success_2">¡Has ganado puntos!</string>
+    <string name="confirm_report_trophy_image">Trofeo Imagen</string>
+    <string name="confirm_report_points_winner">+55 puntos</string>
+    <string name="confirm_report_message">por tu reporte de Riesgo Medio</string>
+    <string name="confirm_report_button_reports">Ver mis reportes</string>
+    <string name="confirm_report_button_another_report">Reportar otro incidente</string>
 </resources>

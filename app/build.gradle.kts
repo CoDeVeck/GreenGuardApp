@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.camerax.camera2)
+    implementation(libs.androidx.camerax.lifecycle)
+    implementation(libs.androidx.camerax.view)
     implementation(libs.androidx.viewpager2)
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.core.ktx)

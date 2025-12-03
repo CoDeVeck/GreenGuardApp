@@ -134,9 +134,8 @@ class OnBoardingActivity : AppCompatActivity() {
     }
 
     private fun isOnboardingCompleted(): Boolean {
-        /*val prefs = getSharedPreferences("GreenGuardian", Context.MODE_PRIVATE)
-        return prefs.getBoolean("onboarding_completed", false)*/
-        return false
+        val prefs = getSharedPreferences("GreenGuardian", Context.MODE_PRIVATE)
+        return prefs.getBoolean("onboarding_completed", false)
     }
 
     class OnboardingAdapter(private val layouts: List<Int>) :
