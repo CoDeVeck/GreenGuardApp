@@ -58,10 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigation() {
         binding.bottomNavigation.selectedItemId = R.id.nav_home
-        binding.fabCamera.setOnClickListener {
-            val intent = Intent(this, CameraActivity::class.java)
-            startActivity(intent)
-        }
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -76,7 +72,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_chat -> {
-                    Toast.makeText(this, "Open Chat", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, ChatActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_rewards -> {
@@ -93,9 +90,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        // Acceso directo a las vistas para añadir listeners
         binding.ivNotifications.setOnClickListener {
-            Toast.makeText(this, "Abrir notificaciones", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, NotificationsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.fabCamera.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnRedeem.setOnClickListener {

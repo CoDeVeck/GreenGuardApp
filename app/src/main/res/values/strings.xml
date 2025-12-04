@@ -156,4 +156,44 @@
     <string name="confirm_report_message">por tu reporte de Riesgo Medio</string>
     <string name="confirm_report_button_reports">Ver mis reportes</string>
     <string name="confirm_report_button_another_report">Reportar otro incidente</string>
+
+    <!-- Chat -->
+    <string name="chat_back">Regresar</string>
+    <string name="chat_title">Asistente Ambiental</string>
+    <string name="chat_menu">Menu</string>
+    <string name="chat_no_connection">No tienes conexion</string>
+    <string name="chat_title_no_connection">No se puede conectar con el asistente</string>
+    <string name="chat_paragraph_no_connection">Parece que hay problemas con tu conexión.\nPor favor, inténtalo de nuevo.</string>
+    <string name="chat_button_text">Reintentar</string>
+    <string name="chat_suggestions_1">Sugerencia 1</string>
+    <string name="chat_suggestions_2">Sugerencia 2</string>
+    <string name="chat_suggestions_3">Sugerencia 3</string>
+    <string name="chat_message_hint">Escribe tu consulta...</string>
+    <string name="chat_message_send">Enviar</string>
+
+    <!-- Item Message Bot -->
+    <string name="item_message_bot_avatar">Bot Imagen</string>
+    <string name="item_message_bot_welcome">¡Hola! Soy tu Asistente Ambiental. ¿Cómo puedo ayudarte a ser más sostenible hoy?</string>
+    <string name="item_message_bot_hour">10:00 AM</string>
+
+    <!-- Item Message User -->
+    <string name="item_message_user">Necesito ideas para reducir mi consumo de plástico.</string>
+    <string name="item_message_user_hour">10:00 AM</string>
+
+    <!-- Item Message Typing -->
+    <string name="item_message_typing">Escribiendo Imagen</string>
+
+    <!-- Notifications -->
+    <string name="notification_button_back">Regresar</string>
+    <string name="notification_title">Centro de Notificaciones</string>
+    <string name="notification_seen">Leída</string>
+    <string name="notification_today">Hoy</string>
+    <string name="notification_yesterday">Ayer</string>
+    <string name="notification_week">Esta Semana</string>
+
+    <!-- Item Notification -->
+    <string name="item_notification_icon">Icono Notification</string>
+    <string name="item_notification_text">Tu reporte ha sido recibido</string>
+    <string name="item_notification_time">hace m</string>
+    <string name="item_notification_desc">El reporte sobre el contenedor desbordado está siendo revisado.</string>
 </resources>

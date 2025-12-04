@@ -16,24 +16,6 @@
         android:background="@drawable/gradient_top_dark"
         android:layout_alignParentTop="true" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:text="@string/camera_title"
-            android:textColor="#FFFFFF"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
     <!-- Top Controls -->
     <LinearLayout
         android:id="@+id/topControls"
