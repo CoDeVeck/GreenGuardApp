@@ -66,8 +66,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_reports -> {
-                    Toast.makeText(this, "Reports", Toast.LENGTH_SHORT).show()
-                    // Aquí iría la navegación real (e.g., Intent o Fragment Transaction)
+                    val intent = Intent(this, ReportHistoryActivity::class.java)
+                    startActivity(intent)
                     true
                 }
 
@@ -81,7 +81,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, PerfilActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false
