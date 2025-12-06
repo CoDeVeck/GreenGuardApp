@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
@@ -40,6 +41,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
     implementation(libs.androidx.camerax.camera2)
     implementation(libs.androidx.camerax.lifecycle)
     implementation(libs.androidx.camerax.view)

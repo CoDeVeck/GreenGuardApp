@@ -4,22 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.greenguard.adapter.CategoryAdapter
 import com.example.greenguard.adapter.RecentActivityAdapter
+import com.example.greenguard.data.dataStore.UserPreferences
 import com.example.greenguard.databinding.ActivityMainBinding
 import com.example.greenguard.domain.model.dto.CategoryMain
 import com.example.greenguard.domain.model.dto.RecentActivity
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var userPrefs: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
+
+        userPrefs = UserPreferences(applicationContext)
 
         loadUserData()
         setupRecentActivity()
@@ -27,11 +31,18 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
         setupListeners()
     }
+
     private fun loadUserData() {
-        binding.tvUserName.text = "Alex Johnson"
-        binding.tvTotalPoints.text = "1,250"
-        binding.tvReportsCount.text = "15"
-        binding.tvPeopleCount.text = "350"
+        lifecycleScope.launch {
+            val nombre = userPrefs.obtenerNombreUsuario()
+            //val puntos =  userPrefs.obtenerPuntosUsuario()  // si luego lo agregas
+            val correo = userPrefs.obtenerCorreo()
+
+            binding.tvUserName.text = nombre ?: "Usuario"
+            //binding.tvTotalPoints.text = puntos?.toString() ?: "--"
+            binding.tvReportsCount.text = "0"  // luego lo conectamos a tu backend
+            binding.tvPeopleCount.text = "0"   // ejemplo si después cargas comunidad
+        }
     }
 
     private fun setupRecentActivity() {

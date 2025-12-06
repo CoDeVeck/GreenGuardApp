@@ -96,40 +96,8 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Tabs -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <TextView
-                            android:id="@+id/tabInfrastructure"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/classification_category_detected"
-                            android:textColor="#FFFFFF"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:gravity="center"
-                            android:paddingBottom="8dp"
-                            android:background="@drawable/tab_selected" />
-
-                        <TextView
-                            android:id="@+id/tabDanger"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/classification_peligro_detected"
-                            android:textColor="#999999"
-                            android:textSize="13sp"
-                            android:gravity="center"
-                            android:paddingBottom="8dp" />
-
-                    </LinearLayout>
-
                     <!-- IA Analysis -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -154,37 +122,116 @@
 
                     </LinearLayout>
 
-                    <!-- Analysis Points -->
+                    <!-- Clasificación detectada por IA -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:background="@drawable/bg_ai_classification"
+                        android:padding="12dp"
                         android:layout_marginBottom="16dp">
 
-                        <TextView
-                            android:text="@string/classification_process_analysis_1"
-                            android:textColor="#333333"
-                            android:textSize="13sp"
-                            android:layout_width="wrap_content"
+                        <!-- Tipo de Incidente -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="6dp" />
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
 
-                        <TextView
-                            android:text="@string/classification_process_analysis_2"
-                            android:textColor="#333333"
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:text="@string/classification_type_detected"
+                                android:textColor="#666666"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tvTipoIncidente"
+                                android:text="@string/classification_type_detected_text"
+                                android:textColor="#2C9B7D"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:layout_marginStart="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <!-- Nivel de Riesgo -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="13sp"
-                            android:layout_marginBottom="6dp" />
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
 
-                        <TextView
-                            android:text="@string/classification_process_analysis_3"
-                            android:textColor="#333333"
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:text="@string/classification_level_risk"
+                                android:textColor="#666666"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tvNivelRiesgo"
+                                android:text="@string/classification_level_risk_text"
+                                android:textColor="#FF9800"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:layout_marginStart="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <!-- Confianza de IA -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="13sp" />
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
 
+                            <TextView
+                                android:text="@string/classification_trust"
+                                android:textColor="#666666"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tvConfianza"
+                                android:text="@string/classification_trust_text"
+                                android:textColor="#4CAF50"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:layout_marginStart="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
                     </LinearLayout>
+
+                    <!-- Descripción generada por IA -->
+                    <TextView
+                        android:text="@string/classification_description_ia"
+                        android:textColor="#666666"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/tvDescripcionIA"
+                        android:text="@string/classification_description_ia_text"
+                        android:textColor="#333333"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp" />
 
                     <!-- Preview Actions -->
                     <LinearLayout
@@ -376,7 +423,7 @@
         </LinearLayout>
 
     </ScrollView>
-    <!-- Loading Overlay -->
+
     <RelativeLayout
         android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"
@@ -384,28 +431,57 @@
         android:background="#CC000000"
         android:visibility="gone"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:elevation="100dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="24dp"
+            android:background="@drawable/bg_loading_card">
 
+            <!-- ProgressBar animado -->
             <ProgressBar
+                android:id="@+id/progressBar"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:indeterminateTint="#4CAF50" />
 
+            <!-- Título dinámico -->
             <TextView
+                android:id="@+id/tvLoadingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cargando imagen..."
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
+
+            <!-- Subtítulo dinámico -->
+            <TextView
+                android:id="@+id/tvLoadingSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Esto puede tardar unos segundos"
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center" />
+
+            <!-- Puntos animados -->
+            <TextView
+                android:id="@+id/tvLoadingDots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="..."
+                android:textColor="#4CAF50"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp" />
 
         </LinearLayout>
 
