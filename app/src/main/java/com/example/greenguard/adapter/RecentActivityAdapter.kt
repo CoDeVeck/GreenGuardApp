@@ -42,6 +42,10 @@ class RecentActivityAdapter(
                     binding.tvActivityStatus.setBackgroundResource(R.drawable.bg_status_pending)
                 }
             }
+
+
+            // El tag almacena el objeto activity para recuperarlo después
+            binding.root.tag = activity
         }
     }
 

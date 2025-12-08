@@ -178,6 +178,11 @@
     <string name="chat_message_hint">Escribe tu consulta...</string>
     <string name="chat_message_send">Enviar</string>
 
+
+    <!-- Report -->
+    <string name="report_title">Historial de Reportes</string>
+    <string name="reportDetail_title">Detalle del Reporte</string>
+
     <!-- Item Message Bot -->
     <string name="item_message_bot_avatar">Bot Imagen</string>
     <string name="item_message_bot_welcome">¡Hola! Soy tu Asistente Ambiental. ¿Cómo puedo ayudarte a ser más sostenible hoy?</string>
