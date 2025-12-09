@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
-    private const val LOCAL_IP = "192.168.1.6"
+    private const val LOCAL_IP = "192.168.1.10"
     private const val PORT = "8080"
 
     /**
@@ -46,7 +46,7 @@ object RetrofitInstance {
             })
             // ⚠️ TIMEOUTS AUMENTADOS PARA PROCESAMIENTO DE IA
             .connectTimeout(30, TimeUnit.SECONDS)     // Tiempo para establecer conexión
-            .readTimeout(120, TimeUnit.SECONDS)       // 2 MINUTOS para leer respuesta (YOLO + Ollama tarda)
+            .readTimeout(180, TimeUnit.SECONDS)       // 3 MINUTOS para leer respuesta (YOLO + Ollama tarda)
             .writeTimeout(60, TimeUnit.SECONDS)       // 1 minuto para enviar imagen
             .build()
 

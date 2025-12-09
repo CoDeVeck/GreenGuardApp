@@ -27,10 +27,19 @@ class LoginActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        userPreferences = UserPreferences(applicationContext)
+        CoroutineScope(Dispatchers.Main).launch {
+            val tokenGuardado = userPreferences.obtenerToken()
+
+            if (!tokenGuardado.isNullOrEmpty()) {
+                startActivity(Intent(this@LoginActivity, OnBoardingActivity::class.java))
+                finish()
+                return@launch
+            }
+        }
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userPreferences = UserPreferences(applicationContext)
         val retrofit = RetrofitInstance.create(userPreferences)
         authApi = retrofit.create(UserAuth::class.java)
         setupListeners()
