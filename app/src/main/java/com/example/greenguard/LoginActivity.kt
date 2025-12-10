@@ -27,13 +27,61 @@ class LoginActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        userPreferences = UserPreferences(applicationContext)
+
+        // ⚠️ NUEVO: Mostrar mensaje si llegó por token expirado
+        if (intent.getBooleanExtra("token_expired", false)) {
+            Toast.makeText(this, "Tu sesión ha expirado. Por favor, inicia sesión nuevamente.", Toast.LENGTH_LONG).show()
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val tokenGuardado = userPreferences.obtenerToken()
+
+            // ⚠️ MODIFICADO: Verificar si el token está expirado
+            if (!tokenGuardado.isNullOrEmpty() && !isTokenExpired(tokenGuardado)) {
+                startActivity(Intent(this@LoginActivity, OnBoardingActivity::class.java))
+                finish()
+                return@launch
+            } else if (!tokenGuardado.isNullOrEmpty()) {
+                // Token existe pero está expirado
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Tu sesión ha expirado. Por favor, inicia sesión nuevamente.",
+                    Toast.LENGTH_LONG
+                ).show()
+                userPreferences.limpiarDatos()
+            }
+        }
+
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userPreferences = UserPreferences(applicationContext)
         val retrofit = RetrofitInstance.create(userPreferences)
         authApi = retrofit.create(UserAuth::class.java)
         setupListeners()
+    }
+
+    // ⚠️ NUEVO: Función para verificar si el token está expirado
+    private fun isTokenExpired(token: String): Boolean {
+        try {
+            val parts = token.split(".")
+            if (parts.size != 3) return true
+
+            // Decodificar payload
+            val payload = String(android.util.Base64.decode(parts[1], android.util.Base64.URL_SAFE))
+            val json = org.json.JSONObject(payload)
+            val exp = json.getLong("exp")
+
+            // Comparar con tiempo actual (en segundos)
+            val now = System.currentTimeMillis() / 1000
+
+            // Agregar margen de 5 minutos (300 segundos) para renovar antes
+            return now >= (exp - 300)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return true // Si hay error, considerar expirado
+        }
     }
 
     private fun setupListeners() {
@@ -88,7 +136,6 @@ class LoginActivity : AppCompatActivity(), CoroutineScope {
                     userPreferences.guardarTelefono(usuario.telefonoUsu ?: "")
                 }
 
-                // 5. Navegar a actividad principal
                 startActivity(Intent(this@LoginActivity, OnBoardingActivity::class.java))
                 finish()
 

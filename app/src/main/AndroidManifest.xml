@@ -13,6 +13,7 @@
 
     <application
         android:allowBackup="true"
+
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_logo"
@@ -22,21 +23,17 @@
         android:theme="@style/Theme.GreenGuard"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <!-- ESTA SERÁ LA PANTALLA INICIAL -->
         <activity
-            android:name=".CanjeExitosoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CuponDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MisCuponesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CatalogoCuponesActivity"
-            android:exported="false" /> <!-- ESTA SERÁ LA PANTALLA INICIAL -->
-        <activity
-            android:name=".ChatActivity"
-            android:exported="false" /> <!-- OTRAS ACTIVITIES -->
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- OTRAS ACTIVITIES -->
         <activity
             android:name=".PerfilActivity"
             android:exported="false" />
@@ -66,20 +63,14 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
+            android:name=".MainActivity"
+            android:exported="false"/>
         <activity
             android:name=".SplashActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".ChatActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -23,7 +23,6 @@ class UserPreferences(private val context: Context) {
     }
 
     private val dataStore = context.dataStore
-
     suspend fun guardarToken(token: String) {
         context.dataStore.edit { it[TOKEN_KEY] = token }
     }
@@ -90,7 +89,9 @@ class UserPreferences(private val context: Context) {
     }
 
     suspend fun limpiarDatos() {
-        context.dataStore.edit { it.clear() }
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
     }
-
+    fun getContext(): Context = context
 }
