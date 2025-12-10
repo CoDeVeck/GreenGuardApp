@@ -6,31 +6,42 @@ import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.greenguard.adapter.MessagesAdapter
+import com.example.greenguard.data.api.Chatbot
+import com.example.greenguard.data.dataStore.UserPreferences
+import com.example.greenguard.data.remote.RetrofitInstance
 import com.example.greenguard.databinding.ActivityChatBinding
+import com.example.greenguard.domain.model.dto.ChatbotResponse
 import com.example.greenguard.domain.model.dto.Message
+import com.example.greenguard.domain.model.dto.PromptRequest
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityChatBinding
     private lateinit var messagesAdapter: MessagesAdapter
     private val messages = mutableListOf<Message>()
-    private var isConnected = true // Simular estado de conexión
+
+    private lateinit var chatbotApi: Chatbot
+    private lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        userPreferences = UserPreferences(this)
+        val retrofit = RetrofitInstance.createForAI(userPreferences)
+        chatbotApi = retrofit.create(Chatbot::class.java)
+
         setupRecyclerView()
         setupListeners()
-        checkConnection()
 
-        if (isConnected) {
-            addWelcomeMessage()
-        }
+        addWelcomeMessage()
     }
 
     private fun setupRecyclerView() {
@@ -42,74 +53,26 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
+        binding.btnSend.setOnClickListener { sendMessage() }
+        binding.btnBack.setOnClickListener { finish() }
 
-        binding.btnMenu.setOnClickListener {
-            Toast.makeText(this, "Menú", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.btnSend.setOnClickListener {
-            sendMessage()
-        }
-
-        binding.btnRetry.setOnClickListener {
-            retryConnection()
-        }
-
-        // Quick suggestions
         binding.chipSuggestion1.setOnClickListener {
             binding.etMessage.setText(binding.chipSuggestion1.text)
             sendMessage()
         }
-
         binding.chipSuggestion2.setOnClickListener {
             binding.etMessage.setText(binding.chipSuggestion2.text)
             sendMessage()
         }
-
         binding.chipSuggestion3.setOnClickListener {
             binding.etMessage.setText(binding.chipSuggestion3.text)
             sendMessage()
         }
     }
 
-    private fun checkConnection() {
-        // Simular verificación de conexión
-        isConnected = isNetworkAvailable()
-
-        if (isConnected) {
-            binding.rvMessages.visibility = View.VISIBLE
-            binding.noConnectionLayout.visibility = View.GONE
-            binding.suggestionsScrollView.visibility = View.VISIBLE
-        } else {
-            binding.rvMessages.visibility = View.GONE
-            binding.noConnectionLayout.visibility = View.VISIBLE
-            binding.suggestionsScrollView.visibility = View.GONE
-        }
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        // Aquí implementarías la verificación real de conexión
-        // Por ahora retornamos true para pruebas
-        return true
-    }
-
-    private fun retryConnection() {
-        Toast.makeText(this, "Reconectando...", Toast.LENGTH_SHORT).show()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            checkConnection()
-            if (isConnected) {
-                addWelcomeMessage()
-            }
-        }, 1000)
-    }
-
     private fun addWelcomeMessage() {
         val welcomeMessage = Message(
-            text = "¡Hola! Soy tu Asistente Ambiental. ¿Cómo puedo ayudarte a ser más sostenible hoy?",
+            text = "¡Hola! Soy tu Asistente Ambiental. ¿En qué puedo ayudarte hoy?",
             isFromUser = false,
             timestamp = getCurrentTime()
         )
@@ -126,12 +89,6 @@ class ChatActivity : AppCompatActivity() {
             return
         }
 
-        if (!isConnected) {
-            Toast.makeText(this, "No hay conexión", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Agregar mensaje del usuario
         val userMessage = Message(
             text = messageText,
             isFromUser = true,
@@ -141,17 +98,41 @@ class ChatActivity : AppCompatActivity() {
         messagesAdapter.notifyItemInserted(messages.size - 1)
         binding.rvMessages.scrollToPosition(messages.size - 1)
 
-        // Limpiar input
         binding.etMessage.text?.clear()
 
-        // Mostrar indicador de escritura
         showTypingIndicator()
 
-        // Simular respuesta del bot
-        Handler(Looper.getMainLooper()).postDelayed({
-            hideTypingIndicator()
-            addBotResponse(messageText)
-        }, 2000)
+        lifecycleScope.launch {
+            try {
+                val request = PromptRequest(prompt = messageText)
+
+                val response: ChatbotResponse = chatbotApi.enviarPrompt(request)
+
+                hideTypingIndicator()
+
+                addBotResponse(response)
+
+            } catch (e: Exception) {
+                hideTypingIndicator()
+                Toast.makeText(
+                    this@ChatActivity,
+                    "Error en la conexión: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    private fun addBotResponse(apiResponse: ChatbotResponse) {
+        val botMessage = Message(
+            text = apiResponse.choices[0].message.content,
+            isFromUser = false,
+            timestamp = getCurrentTime()
+        )
+
+        messages.add(botMessage)
+        messagesAdapter.notifyItemInserted(messages.size - 1)
+        binding.rvMessages.scrollToPosition(messages.size - 1)
     }
 
     private fun showTypingIndicator() {
@@ -167,41 +148,10 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun hideTypingIndicator() {
-        val typingIndex = messages.indexOfLast { it.isTyping }
-        if (typingIndex != -1) {
-            messages.removeAt(typingIndex)
-            messagesAdapter.notifyItemRemoved(typingIndex)
-        }
-    }
-
-    private fun addBotResponse(userMessage: String) {
-        val response = generateBotResponse(userMessage)
-        val botMessage = Message(
-            text = response,
-            isFromUser = false,
-            timestamp = getCurrentTime()
-        )
-        messages.add(botMessage)
-        messagesAdapter.notifyItemInserted(messages.size - 1)
-        binding.rvMessages.scrollToPosition(messages.size - 1)
-    }
-
-    private fun generateBotResponse(userMessage: String): String {
-        // Aquí integrarías tu API de IA (ChatGPT, Gemini, etc.)
-        // Por ahora respuestas simuladas
-        return when {
-            userMessage.contains("plástico", ignoreCase = true) -> {
-                "Claro, una gran idea es empezar por llevar tus propias bolsas reutilizables al supermercado. También puedes optar por productos a granel para evitar empaques innecesarios."
-            }
-            userMessage.contains("reciclar", ignoreCase = true) -> {
-                "Para reciclar correctamente, asegúrate de separar: papel y cartón, plástico, vidrio y metal. Limpia los envases antes de reciclarlos y verifica los símbolos de reciclaje."
-            }
-            userMessage.contains("residuos", ignoreCase = true) -> {
-                "Para reducir residuos, te recomiendo: comprar solo lo necesario, preferir productos con empaques reciclables, compostar residuos orgánicos y reutilizar lo que puedas."
-            }
-            else -> {
-                "Esa es una excelente pregunta. ¿Podrías darme más detalles para ayudarte mejor?"
-            }
+        val index = messages.indexOfLast { it.isTyping }
+        if (index != -1) {
+            messages.removeAt(index)
+            messagesAdapter.notifyItemRemoved(index)
         }
     }
 
@@ -209,6 +159,4 @@ class ChatActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("hh:mm a", Locale.getDefault())
         return sdf.format(Date())
     }
-
-
 }
