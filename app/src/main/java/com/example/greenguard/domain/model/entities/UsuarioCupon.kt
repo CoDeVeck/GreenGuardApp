@@ -5,6 +5,7 @@ data class UsuarioCupon(
     val cupon: Cupon? = null,
     val usuario: Usuario? = null,
     val codigoCupon: String? = null,
+    val puntosUsuario: Int? = null,
     val qrVerificationCode: String? = null,
     val fechaCanje: String? = null,
     val canjeado: Boolean? = null,

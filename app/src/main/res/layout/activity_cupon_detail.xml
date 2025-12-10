@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Imagen del cupón -->
+        <ImageView
+            android:id="@+id/imgCupon"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+            android:background="#89A36F"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Imagen del cupón" />
+
+        <!-- Card principal -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:elevation="4dp"
+            android:backgroundTint="#FFFFFF"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="-30dp"
+            android:clipToPadding="false"
+            >
+
+            <TextView
+                android:id="@+id/tvTituloCupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25% de Descuento en Café Orgánico"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333333" />
+
+            <TextView
+                android:id="@+id/tvDescripcionCupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descripción del cupón aquí"
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp" />
+
+            <!-- Costos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#F7F7F7"
+                android:padding="16dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#EFEFEF"
+                android:elevation="2dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvCosto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Costo: 1500 Puntos"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTusPuntos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Tus puntos: 1200"
+                    android:textSize="14sp"
+                    android:textColor="#4CAF50" />
+
+                <ProgressBar
+                    android:id="@+id/progresoPuntos"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="8dp"
+                    android:progress="50" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Tienda asociada -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:elevation="4dp"
+            android:backgroundTint="#FFFFFF"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTienda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tienda asociada: EcoCafé Specialty"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DADADA"
+                android:layout_marginVertical="8dp" />
+
+            <TextView
+                android:id="@+id/tvVigencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vigencia: 30 días"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Términos y condiciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:elevation="4dp"
+            android:backgroundTint="#FFFFFF"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Términos y Condiciones"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvTerminos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- No acumulable con otras promociones.\n- Válido para una sola transacción.\n- Presentar el código QR generado en caja.\n- Sujeto a disponibilidad de producto."
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Botón -->
+        <Button
+            android:id="@+id/btnCanjear"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Canjear por 1500 puntos"
+            android:background="#FFA726"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#FFA726"
+            android:layout_marginBottom="32dp" />
+    </LinearLayout>
+
+</ScrollView>

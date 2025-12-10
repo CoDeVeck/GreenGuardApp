@@ -88,7 +88,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_rewards -> {
-                    Toast.makeText(this, "Rewards", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, CatalogoCuponesActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_profile -> {

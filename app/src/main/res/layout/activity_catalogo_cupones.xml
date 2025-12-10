@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Volver"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Catálogo de Cupones"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintEnd_toStartOf="@id/btnMisCupones"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/btnMisCupones"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_launcher_background"
+            android:contentDescription="Mis Cupones"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Puntos Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/puntosCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mis Puntos"
+                    android:textSize="14sp"
+                    android:textColor="#666666"/>
+
+                <TextView
+                    android:id="@+id/tvPuntos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,250"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="#4CAF50"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="Icono puntos"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Categorías -->
+    <HorizontalScrollView
+        android:id="@+id/categoriesScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/puntosCard">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <Button
+                android:id="@+id/btnTodos"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Todos"
+                android:textColor="@android:color/white"
+                android:background="@drawable/btn_category_selected"
+                android:drawableStart="@drawable/ic_launcher_background"
+                android:drawablePadding="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnAlimentacion"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Alimentación"
+                android:textColor="#666666"
+                android:background="@drawable/btn_category_normal"
+                android:drawableStart="@drawable/ic_launcher_background"
+                android:drawablePadding="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnTransporte"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Transporte"
+                android:textColor="#666666"
+                android:background="@drawable/btn_category_normal"
+                android:drawableStart="@drawable/ic_launcher_background"
+                android:drawablePadding="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <!-- Grid de Cupones -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/categoriesScroll"
+        >
+
+        <GridLayout
+            android:id="@+id/cuponesGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:padding="16dp"
+            android:alignmentMode="alignMargins">
+
+            <!-- Cupón 1 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_launcher_background"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Café"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10% OFF"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold"
+                            android:background="#FF9800"
+                            android:padding="6dp"
+                            android:layout_margin="8dp"
+                            android:textSize="12sp"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:background="#E8F5E9">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Café del Día Gratis"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#333333"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500 Puntos"
+                            android:textSize="12sp"
+                            android:textColor="#666666"
+                            android:drawableStart="@drawable/ic_launcher_background"
+                            android:drawablePadding="4dp"
+                            android:layout_marginTop="4dp"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:text="Ver detalles"
+                            android:textColor="@android:color/white"
+                            android:background="@drawable/btn_orange"
+                            android:layout_marginTop="8dp"
+                            android:textAllCaps="false"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Cupón 2 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_launcher_background"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Ropa"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15% OFF"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold"
+                            android:background="#FF9800"
+                            android:padding="6dp"
+                            android:layout_margin="8dp"
+                            android:textSize="12sp"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:background="#FFF3E0">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Descuento en Ropa"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#333333"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="800 Puntos"
+                            android:textSize="12sp"
+                            android:textColor="#666666"
+                            android:drawableStart="@drawable/ic_launcher_background"
+                            android:drawablePadding="4dp"
+                            android:layout_marginTop="4dp"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:text="Ver detalles"
+                            android:textColor="@android:color/white"
+                            android:background="@drawable/btn_orange"
+                            android:layout_marginTop="8dp"
+                            android:textAllCaps="false"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Cupón 3 - Inactivo -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:alpha="0.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_launcher_background"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Tecnología"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sin stock"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold"
+                            android:background="#9E9E9E"
+                            android:padding="6dp"
+                            android:layout_margin="8dp"
+                            android:textSize="12sp"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:background="#F5F5F5">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Te faltan 250 puntos"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#999999"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1500 Puntos"
+                            android:textSize="12sp"
+                            android:textColor="#999999"
+                            android:drawableStart="@drawable/ic_launcher_background"
+                            android:drawablePadding="4dp"
+                            android:layout_marginTop="4dp"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:text="Ver detalles"
+                            android:textColor="#999999"
+                            android:background="@drawable/btn_disabled"
+                            android:layout_marginTop="8dp"
+                            android:enabled="false"
+                            android:textAllCaps="false"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Cupón 4 - Inactivo -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:alpha="0.5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_launcher_background"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Viaje"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vive Data"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold"
+                            android:background="#9E9E9E"
+                            android:padding="6dp"
+                            android:layout_margin="8dp"
+                            android:textSize="12sp"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:background="#F5F5F5">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Te faltan 750 puntos"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#999999"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2000 Puntos"
+                            android:textSize="12sp"
+                            android:textColor="#999999"
+                            android:drawableStart="@drawable/ic_launcher_background"
+                            android:drawablePadding="4dp"
+                            android:layout_marginTop="4dp"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:text="Ver detalles"
+                            android:textColor="#999999"
+                            android:background="@drawable/btn_disabled"
+                            android:layout_marginTop="8dp"
+                            android:enabled="false"
+                            android:textAllCaps="false"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </GridLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
