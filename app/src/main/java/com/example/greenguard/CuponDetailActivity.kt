@@ -66,13 +66,18 @@ class CuponDetailActivity : AppCompatActivity() {
         binding.btnCanjear.text = "Canjear por ${puntosRequeridos} puntos"
 
         binding.btnCanjear.setOnClickListener {
-            mostrarConfirmacionCanje(
-                descripcion = descCupon ?: "",
-                puntosActuales = puntosUsuario,
-                puntosRequeridos = puntosRequeridos,
-                codigoCupon = codigoCupon ?: "",
-                fechaCanje = fechaCanje ?: ""
-            )
+            val intent = Intent(this, DetailQrCuponActivity::class.java)
+
+            intent.putExtra("descripcion", descCupon ?: "")
+            intent.putExtra("puntosActuales", puntosUsuario)
+            intent.putExtra("puntosRequeridos", puntosRequeridos)
+            intent.putExtra("codigoCupon", codigoCupon ?: "")
+            intent.putExtra("fechaCanje", fechaCanje ?: "")
+            intent.putExtra("nomTienda", nomTienda ?: "")
+            intent.putExtra("distrito", distrito ?: "")
+            intent.putExtra("imagen", R.drawable.ic_launcher_background)
+
+            startActivity(intent)
         }
 
 
