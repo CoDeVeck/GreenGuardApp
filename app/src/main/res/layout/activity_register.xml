@@ -12,14 +12,49 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+        <!-- Profile Photo Section -->
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/logo_green"
-            android:contentDescription="@string/splash_logo_desc" />
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/ivProfilePhoto"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circle_border"
+                android:contentDescription="@string/profile_photo_desc"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user_placeholder" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabAddPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                app:fabCustomSize="36dp"
+                app:fabSize="mini"
+                app:maxImageSize="20dp"
+                app:tint="@color/white"
+                app:backgroundTint="@color/green_primary"
+                android:src="@drawable/ic_camera"
+                android:contentDescription="@string/add_photo_desc" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvUploadPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="@string/upload_profile_photo"
+            android:textColor="@color/green_primary"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -28,8 +63,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="@string/register_title"
-            android:textColor="#333333"
-            android:textSize="24sp"
+            android:textColor="#1A1A1A"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
@@ -41,16 +76,18 @@
             android:text="@string/register_subtitle"
             android:textAlignment="center"
             android:textColor="#666666"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
+        <!-- Nombres -->
         <TextView
             android:id="@+id/tvNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:text="@string/register_name_label"
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilName"
@@ -61,6 +98,7 @@
             app:boxStrokeColor="@color/green_primary"
             app:endIconMode="custom"
             app:endIconDrawable="@drawable/ic_user"
+            app:endIconTint="#999999"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -70,9 +108,198 @@
                 android:hint="@string/register_name_hint"
                 android:inputType="textPersonName"
                 android:textSize="14sp" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Apellido Paterno -->
+        <TextView
+            android:id="@+id/tvLastNamePaternoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_lastname_paterno_label"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilLastNamePaterno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_id_card"
+            app:endIconTint="#999999"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLastNamePaterno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_lastname_paterno_hint"
+                android:inputType="textPersonName"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Apellido Materno -->
+        <TextView
+            android:id="@+id/tvLastNameMaternoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_lastname_materno_label"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilLastNameMaterno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_id_card"
+            app:endIconTint="#999999"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLastNameMaterno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_lastname_materno_hint"
+                android:inputType="textPersonName"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- DNI -->
+        <TextView
+            android:id="@+id/tvDniLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_dni_label"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_id_card"
+            app:endIconTint="#999999"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_dni_hint"
+                android:inputType="number"
+                android:maxLength="8"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Teléfono -->
+        <TextView
+            android:id="@+id/tvPhoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_phone_label"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_phone"
+            app:endIconTint="#999999"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_phone_hint"
+                android:inputType="phone"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Género -->
+        <TextView
+            android:id="@+id/tvGenderLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_gender_label"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconTint="#999999"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_gender_hint"
+                android:inputType="none"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Distrito -->
+        <TextView
+            android:id="@+id/tvDistrictLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/register_district_label"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDistrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxStrokeColor="@color/green_primary"
+            app:endIconTint="#999999"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvDistrict"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_district_hint"
+                android:inputType="none"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Correo Electrónico -->
         <TextView
             android:id="@+id/tvEmailLabel"
             android:layout_width="wrap_content"
@@ -80,7 +307,8 @@
             android:layout_marginTop="16dp"
             android:text="@string/register_email_label"
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
@@ -91,6 +319,7 @@
             app:boxStrokeColor="@color/green_primary"
             app:endIconMode="custom"
             app:endIconDrawable="@drawable/ic_sobre"
+            app:endIconTint="#999999"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -100,9 +329,9 @@
                 android:hint="@string/register_email_hint"
                 android:inputType="textEmailAddress"
                 android:textSize="14sp" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Contraseña -->
         <TextView
             android:id="@+id/tvPasswordLabel"
             android:layout_width="wrap_content"
@@ -110,7 +339,8 @@
             android:layout_marginTop="16dp"
             android:text="@string/login_password_label"
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPassword"
@@ -120,6 +350,7 @@
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/green_primary"
             app:endIconMode="password_toggle"
+            app:endIconTint="#999999"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -129,9 +360,9 @@
                 android:hint="@string/register_password_hint"
                 android:inputType="textPassword"
                 android:textSize="14sp" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Confirmar Contraseña -->
         <TextView
             android:id="@+id/tvConfirmPasswordLabel"
             android:layout_width="wrap_content"
@@ -139,7 +370,8 @@
             android:layout_marginTop="16dp"
             android:text="@string/register_confirm_password_label"
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilConfirmPassword"
@@ -149,6 +381,7 @@
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/green_primary"
             app:endIconMode="password_toggle"
+            app:endIconTint="#999999"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -158,13 +391,13 @@
                 android:hint="@string/register_confirm_password_hint"
                 android:inputType="textPassword"
                 android:textSize="14sp" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Terms and Conditions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
@@ -179,28 +412,31 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="12sp"
+                android:text="@string/register_term_conditions"
+                android:textSize="13sp"
                 android:textColor="#666666" />
-
         </LinearLayout>
 
+        <!-- Register Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:text="@string/register_button_enter"
             android:textAllCaps="false"
             android:textSize="16sp"
-            app:backgroundTint="#4CAF50"
-            app:cornerRadius="8dp" />
+            android:textStyle="bold"
+            app:backgroundTint="@color/green_primary"
+            app:cornerRadius="12dp" />
 
+        <!-- Login Link -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="24dp"
             android:orientation="horizontal">
 
             <TextView
@@ -214,8 +450,9 @@
                 android:id="@+id/tvLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:text="@string/register_login"
-                android:textColor="#2C9B7D"
+                android:textColor="@color/green_primary"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:clickable="true"

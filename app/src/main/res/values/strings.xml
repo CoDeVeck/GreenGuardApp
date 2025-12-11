@@ -19,27 +19,122 @@
     <string name="error_empty_password">Ingresa tu contraseña</string>
 
     <!-- Register -->
+    <!-- Títulos y subtítulos -->
     <string name="register_title">Crear Cuenta</string>
-    <string name="register_subtitle">Únete a la comunidad que cuida nuestra\nciudad.</string>
-    <string name="register_name_label">Nombre Completo</string>
-    <string name="register_name_hint">Ingresa tu nombre</string>
+    <string name="register_subtitle">Únete a la comunidad que cuida nuestra ciudad.</string>
+
+    <!-- Foto de perfil -->
+    <string name="upload_profile_photo">Subir foto de perfil</string>
+    <string name="profile_photo_desc">Foto de perfil</string>
+    <string name="add_photo_desc">Añadir foto</string>
+
+    <!-- Campos del formulario -->
+    <string name="register_name_label">Nombres</string>
+    <string name="register_name_hint">Ingresa tus nombres</string>
+
+    <string name="register_lastname_paterno_label">Apellido Paterno</string>
+    <string name="register_lastname_paterno_hint">Ingresa tu apellido paterno</string>
+
+    <string name="register_lastname_materno_label">Apellido Materno</string>
+    <string name="register_lastname_materno_hint">Ingresa tu apellido materno</string>
+
+    <string name="register_dni_label">DNI</string>
+    <string name="register_dni_hint">Ingresa tu DNI</string>
+
+    <string name="register_phone_label">Teléfono</string>
+    <string name="register_phone_hint">Ingresa tu número celular</string>
+
+    <string name="register_gender_label">Género</string>
+    <string name="register_gender_hint">Selecciona tu género</string>
+
+    <string name="register_district_label">Distrito</string>
+    <string name="register_district_hint">Selecciona tu distrito</string>
+
     <string name="register_email_label">Correo electrónico</string>
-    <string name="register_email_hint">tu-correo@ejemplo.com</string>
+    <string name="register_email_hint">tu.correo@ejemplo.com</string>
+
     <string name="register_password_hint">Crea una contraseña</string>
+
     <string name="register_confirm_password_label">Confirmar contraseña</string>
     <string name="register_confirm_password_hint">Confirma tu contraseña</string>
+
+    <!-- Términos y condiciones -->
+    <string name="register_term_conditions">Acepto los Términos y Condiciones</string>
+
+    <!-- Botones y enlaces -->
     <string name="register_button_enter">Registrar</string>
     <string name="register_yes_account">¿Ya tienes una cuenta? </string>
     <string name="register_login">Inicia sesión</string>
-    <string name="register_term_conditions">Acepto los Términos y Condiciones</string>
 
-    <string name="error_empty_name">Ingresa tu nombre completo</string>
+    <!-- Mensajes de error -->
+    <string name="error_empty_name">Ingresa tus nombres</string>
+    <string name="error_empty_lastname_paterno">Ingresa tu apellido paterno</string>
+    <string name="error_empty_lastname_materno">Ingresa tu apellido materno</string>
+    <string name="error_empty_dni">Ingresa tu DNI</string>
+    <string name="error_invalid_dni">El DNI debe tener 8 dígitos</string>
+    <string name="error_empty_phone">Ingresa tu número de teléfono</string>
+    <string name="error_invalid_phone">Número de teléfono inválido</string>
+    <string name="error_empty_gender">Selecciona tu género</string>
+    <string name="error_empty_district">Selecciona tu distrito</string>
     <string name="error_empty_email_register">Ingresa tu correo electrónico</string>
+    <string name="error_invalid_email">Correo electrónico inválido</string>
     <string name="error_empty_password_register">Crea una contraseña</string>
     <string name="error_six_characters_password">La contraseña debe tener al menos 6 caracteres</string>
     <string name="error_empty_confirm_password">Confirma tu contraseña</string>
     <string name="error_not_match_password">Las contraseñas no coinciden</string>
     <string name="error_not_check_terms_conditions">Debes aceptar los términos y condiciones</string>
+
+    <!-- Opciones de género -->
+    <string-array name="gender_options">
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </string-array>
+
+    <!-- Distritos de Lima (ejemplo, ajusta según tus necesidades) -->
+    <string-array name="district_options">
+        <item>Ancón</item>
+        <item>Ate</item>
+        <item>Barranco</item>
+        <item>Breña</item>
+        <item>Carabayllo</item>
+        <item>Chaclacayo</item>
+        <item>Chorrillos</item>
+        <item>Cieneguilla</item>
+        <item>Comas</item>
+        <item>El Agustino</item>
+        <item>Independencia</item>
+        <item>Jesús María</item>
+        <item>La Molina</item>
+        <item>La Victoria</item>
+        <item>Lince</item>
+        <item>Los Olivos</item>
+        <item>Lurigancho</item>
+        <item>Lurín</item>
+        <item>Magdalena del Mar</item>
+        <item>Miraflores</item>
+        <item>Pachacámac</item>
+        <item>Pucusana</item>
+        <item>Pueblo Libre</item>
+        <item>Puente Piedra</item>
+        <item>Punta Hermosa</item>
+        <item>Punta Negra</item>
+        <item>Rímac</item>
+        <item>San Bartolo</item>
+        <item>San Borja</item>
+        <item>San Isidro</item>
+        <item>San Juan de Lurigancho</item>
+        <item>San Juan de Miraflores</item>
+        <item>San Luis</item>
+        <item>San Martín de Porres</item>
+        <item>San Miguel</item>
+        <item>Santa Anita</item>
+        <item>Santa María del Mar</item>
+        <item>Santa Rosa</item>
+        <item>Santiago de Surco</item>
+        <item>Surquillo</item>
+        <item>Villa El Salvador</item>
+        <item>Villa María del Triunfo</item>
+    </string-array>
 
     <!-- On boarding -->
     <string name="onboarding_step_label">Paso 1</string>
