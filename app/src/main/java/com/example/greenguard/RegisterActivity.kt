@@ -19,15 +19,20 @@ import com.example.greenguard.databinding.ActivityRegisterBinding
 import kotlinx.coroutines.launch
 import java.io.File
 import android.Manifest
+import android.content.Intent
 import com.example.greenguard.data.repository.AuthRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var repository: AuthRepository
+    private lateinit var userPreferences: UserPreferences
 
     private var selectedImageUri: Uri? = null
     private var photoFile: File? = null
+    private lateinit var authApi: UserAuth
 
     // Map para convertir nombres de distrito a IDs
     private val distritoMap = mapOf(
@@ -112,6 +117,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userPreferences = UserPreferences(applicationContext)
 
         setupRepository()
         setupUI()
@@ -122,42 +128,36 @@ class RegisterActivity : AppCompatActivity() {
         val userPreferences = UserPreferences(this)
         val userAuth = RetrofitInstance.create(userPreferences).create(UserAuth::class.java)
         repository = AuthRepository(userAuth, applicationContext)
+        authApi = userAuth
     }
 
     private fun setupUI() {
-        // Configurar dropdown de género
         val genderOptions = resources.getStringArray(R.array.gender_options)
         val genderAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, genderOptions)
         binding.actvGender.setAdapter(genderAdapter)
 
-        // Configurar dropdown de distrito
         val districtOptions = resources.getStringArray(R.array.district_options)
         val districtAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, districtOptions)
         binding.actvDistrict.setAdapter(districtAdapter)
     }
 
     private fun setupClickListeners() {
-        // Click en el FAB para agregar foto
         binding.fabAddPhoto.setOnClickListener {
             showImageSourceDialog()
         }
 
-        // Click en "Subir foto de perfil"
         binding.tvUploadPhoto.setOnClickListener {
             showImageSourceDialog()
         }
 
-        // Click en la imagen de perfil
         binding.ivProfilePhoto.setOnClickListener {
             showImageSourceDialog()
         }
 
-        // Click en el botón de registro
         binding.btnRegister.setOnClickListener {
             handleRegister()
         }
 
-        // Click en "Inicia sesión"
         binding.tvLogin.setOnClickListener {
             finish() // Volver a la pantalla de login
         }
@@ -222,7 +222,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun handleRegister() {
-        // Obtener todos los valores de los campos
         val nombre = binding.etName.text.toString().trim()
         val apellidoPaterno = binding.etLastNamePaterno.text.toString().trim()
         val apellidoMaterno = binding.etLastNameMaterno.text.toString().trim()
@@ -239,7 +238,6 @@ class RegisterActivity : AppCompatActivity() {
         val confirmarPassword = binding.etConfirmPassword.text.toString().trim()
         val aceptoTerminos = binding.cbTerms.isChecked
 
-        // Validar los datos
         if (!validateInputs(
                 nombre, apellidoPaterno, apellidoMaterno, documento,
                 telefono, genero, distritoNombre, correo, password,
@@ -248,10 +246,8 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        // Obtener el ID del distrito
         val distritoId = distritoMap[distritoNombre] ?: 0
 
-        // Realizar el registro
         registerUser(
             nombre, apellidoPaterno, apellidoMaterno, documento,
             telefono, genero, distritoId, correo, password
@@ -363,20 +359,72 @@ class RegisterActivity : AppCompatActivity() {
                 imagenUri = selectedImageUri
             )
 
-            showLoading(false)
-
             result.fold(
                 onSuccess = { response ->
                     if (response.valor) {
-                        showSuccessDialog(response.mensaje)
+                        // Registro exitoso, ahora hacer login automático
+                        autoLogin(correo, password)
                     } else {
+                        showLoading(false)
                         showError(response.mensaje)
                     }
                 },
                 onFailure = { exception ->
+                    showLoading(false)
                     showError("Error al registrar: ${exception.message}")
                 }
             )
+        }
+    }
+
+    private fun autoLogin(correo: String, password: String) {
+        lifecycleScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    authApi.login(correo, password)
+                }
+
+                val token = response.token
+                if (token.isEmpty()) {
+                    showLoading(false)
+                    showError("Error al iniciar sesión automáticamente")
+                    return@launch
+                }
+
+                withContext(Dispatchers.IO) {
+                    userPreferences.guardarToken(token)
+                }
+
+                authApi = RetrofitInstance.create(userPreferences).create(UserAuth::class.java)
+
+                val usuario = withContext(Dispatchers.IO) {
+                    authApi.getUserInfo("Bearer $token")
+                }
+
+                withContext(Dispatchers.IO) {
+                    userPreferences.guardarIdUsuario(usuario.idUsu ?: -1)
+                    userPreferences.guardarNombreUsuario(
+                        listOf(
+                            usuario.nomUsu,
+                            usuario.apePatUsu,
+                            usuario.apeMatUsu
+                        ).filter { !it.isNullOrBlank() }
+                            .joinToString(" ")
+                    )
+                    userPreferences.guardarCorreo(usuario.correoUsu ?: "")
+                    userPreferences.guardarTelefono(usuario.telefonoUsu ?: "")
+                }
+
+                showLoading(false)
+
+                startActivity(Intent(this@RegisterActivity, OnBoardingActivity::class.java))
+                finish()
+
+            } catch (e: Exception) {
+                showLoading(false)
+                e.printStackTrace()
+                showError("Error al iniciar sesión: ${e.message}")
+            }
         }
     }
 
@@ -389,15 +437,15 @@ class RegisterActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showSuccessDialog(message: String) {
-        AlertDialog.Builder(this)
-            .setTitle("Registro exitoso")
-            .setMessage(message)
-            .setPositiveButton("Aceptar") { _, _ ->
-                // Volver a la pantalla de login
-                finish()
-            }
-            .setCancelable(false)
-            .show()
-    }
+//    private fun showSuccessDialog(message: String) {
+//        AlertDialog.Builder(this)
+//            .setTitle("Registro exitoso")
+//            .setMessage(message)
+//            .setPositiveButton("Aceptar") { _, _ ->
+//                // Volver a la pantalla de login
+//                finish()
+//            }
+//            .setCancelable(false)
+//            .show()
+//    }
 }
