@@ -38,8 +38,6 @@ class ReportConfirmationActivity : AppCompatActivity() {
         binding.tvPointsEarned.text = "+$pointsEarned puntos"
         binding.tvRiskLevel.text = "por tu reporte de $riskLevel"
 
-        // Si tienes un TextView para el número de reporte, muéstralo
-        // binding.tvReportNumber?.text = "Reporte #$reportNumber"
     }
 
     private fun setupListeners() {
@@ -91,8 +89,9 @@ class ReportConfirmationActivity : AppCompatActivity() {
     }
 
     private fun navigateToReports() {
-        // Implementar cuando tengas MyReportsActivity
-        navigateToHome()
+        val intent = Intent(this, ReportHistoryActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun navigateToCamera() {

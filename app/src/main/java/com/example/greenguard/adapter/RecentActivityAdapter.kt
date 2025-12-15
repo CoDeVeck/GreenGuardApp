@@ -4,50 +4,56 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.greenguard.MainActivity
 import com.example.greenguard.databinding.ItemRecentActivityBinding
 import com.example.greenguard.R
 import com.example.greenguard.domain.model.dto.RecentActivity
 
 class RecentActivityAdapter(
-    private val activities: List<RecentActivity>
+    private val activities: List<RecentActivity>,
+    private val onItemClick: ((RecentActivity) -> Unit)? = null
 ) : RecyclerView.Adapter<RecentActivityAdapter.ViewHolder>() {
 
-    // 1. El ViewHolder ahora acepta la instancia del Binding como parámetro
-    // y extiende RecyclerView.ViewHolder usando binding.root
-    class ViewHolder(private val binding: ItemRecentActivityBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemRecentActivityBinding,
+        private val onItemClick: ((RecentActivity) -> Unit)?
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        // Función para poblar los datos
         fun bind(activity: RecentActivity) {
-            // Acceso directo a las vistas del item a través de 'binding.'
-            binding.ivActivityIcon.setImageResource(activity.imageRes)
+
+            Glide.with(binding.ivActivityIcon.context)
+                .load(activity.imageUrl)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_close)
+                .into(binding.ivActivityIcon)
+
             binding.tvActivityTitle.text = activity.title
             binding.tvActivityDate.text = activity.date
             binding.tvActivityStatus.text = activity.status
 
-            // Color según estado
             when (activity.status) {
-                "En Proceso" -> {
-                    // Usar binding para acceder a la vista de estado
+                "EP" -> {
                     binding.tvActivityStatus.setTextColor(Color.parseColor("#2196F3"))
                     binding.tvActivityStatus.setBackgroundResource(R.drawable.bg_status_in_progress)
                 }
-                "Resuelto" -> {
+                "RE" -> {
                     binding.tvActivityStatus.setTextColor(Color.parseColor("#4CAF50"))
                     binding.tvActivityStatus.setBackgroundResource(R.drawable.bg_status_resolved)
                 }
-                "Pendiente" -> {
+                "PE" -> {
                     binding.tvActivityStatus.setTextColor(Color.parseColor("#FF9800"))
                     binding.tvActivityStatus.setBackgroundResource(R.drawable.bg_status_pending)
                 }
             }
 
-
-            // El tag almacena el objeto activity para recuperarlo después
-            binding.root.tag = activity
+            // ✅ CLICK AQUÍ
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(activity) // 👈 solo si existe
+            }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRecentActivityBinding.inflate(
@@ -55,8 +61,9 @@ class RecentActivityAdapter(
             parent,
             false
         )
-        return ViewHolder(binding)
+        return ViewHolder(binding, onItemClick)
     }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(activities[position])

@@ -29,7 +29,6 @@ class LoginActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         userPreferences = UserPreferences(applicationContext)
 
-        // ⚠️ NUEVO: Mostrar mensaje si llegó por token expirado
         if (intent.getBooleanExtra("token_expired", false)) {
             Toast.makeText(this, "Tu sesión ha expirado. Por favor, inicia sesión nuevamente.", Toast.LENGTH_LONG).show()
         }
@@ -37,13 +36,11 @@ class LoginActivity : AppCompatActivity(), CoroutineScope {
         CoroutineScope(Dispatchers.Main).launch {
             val tokenGuardado = userPreferences.obtenerToken()
 
-            // ⚠️ MODIFICADO: Verificar si el token está expirado
             if (!tokenGuardado.isNullOrEmpty() && !isTokenExpired(tokenGuardado)) {
                 startActivity(Intent(this@LoginActivity, OnBoardingActivity::class.java))
                 finish()
                 return@launch
             } else if (!tokenGuardado.isNullOrEmpty()) {
-                // Token existe pero está expirado
                 Toast.makeText(
                     this@LoginActivity,
                     "Tu sesión ha expirado. Por favor, inicia sesión nuevamente.",
@@ -128,10 +125,14 @@ class LoginActivity : AppCompatActivity(), CoroutineScope {
                 withContext(Dispatchers.IO) {
                     userPreferences.guardarIdUsuario(usuario.idUsu ?: -1)
                     userPreferences.guardarNombreUsuario(
-                        (usuario.nomUsu.orEmpty() +
-                                usuario.apePatUsu.orEmpty() +
-                                usuario.apeMatUsu.orEmpty())
+                        listOf(
+                            usuario.nomUsu,
+                            usuario.apePatUsu,
+                            usuario.apeMatUsu
+                        ).filter { !it.isNullOrBlank() }
+                            .joinToString(" ")
                     )
+
                     userPreferences.guardarCorreo(usuario.correoUsu ?: "")
                     userPreferences.guardarTelefono(usuario.telefonoUsu ?: "")
                 }

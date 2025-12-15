@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -23,7 +25,15 @@
         android:theme="@style/Theme.GreenGuard"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.greenguard.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <!-- ESTA SERÁ LA PANTALLA INICIAL -->
         <activity
             android:name=".LoginActivity"
@@ -36,6 +46,21 @@
         <!-- OTRAS ACTIVITIES -->
         <activity
             android:name=".PerfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailQrCuponActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CanjeExitosoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CuponDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MisCuponesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CatalogoCuponesActivity"
             android:exported="false" />
         <activity
             android:name=".ReportDetailActivity"

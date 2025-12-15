@@ -1,7 +1,10 @@
 package com.example.greenguard
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -9,7 +12,9 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.greenguard.data.api.ReporteApi
 import com.example.greenguard.data.dataStore.UserPreferences
@@ -17,6 +22,10 @@ import com.example.greenguard.data.remote.RetrofitInstance
 import com.example.greenguard.databinding.ActivityClassificationBinding
 import com.example.greenguard.domain.model.dto.ClassificationResponse
 import com.example.greenguard.util.FileUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -44,11 +53,40 @@ class ClassificationActivity : AppCompatActivity() {
     private var loadingHandler: Handler? = null
     private var loadingRunnable: Runnable? = null
 
+    // Variables de ubicación
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude: Double = -12.046374  // Default Lima
+    private var longitude: Double = -77.042793 // Default Lima
+    private var locationObtained: Boolean = false
+
+    // Launcher para permisos de ubicación
+    private val locationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val fineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+        val coarseLocationGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+
+        if (fineLocationGranted || coarseLocationGranted) {
+            Log.d("ClassificationActivity", "📍 Permisos de ubicación concedidos")
+            getCurrentLocation()
+        } else {
+            Log.w("ClassificationActivity", "⚠️ Permisos de ubicación denegados, usando ubicación por defecto")
+            Toast.makeText(
+                this,
+                "Se usará ubicación por defecto. Activa los permisos para mayor precisión.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClassificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         userPreferences = UserPreferences(this)
+
+        // Inicializar cliente de ubicación
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Cargar ID de usuario
         lifecycleScope.launch {
@@ -56,53 +94,34 @@ class ClassificationActivity : AppCompatActivity() {
             Log.d("ClassificationActivity", "👤 ID Usuario: $userId")
         }
 
-        // ✅ OCULTAR todos los controles hasta que termine el análisis
         hideControls()
-
         loadImage()
         setupListeners()
 
-        // ✅ MOSTRAR OVERLAY INMEDIATAMENTE y empezar análisis
         showLoading(
             title = "🤖 Analizando con IA",
             subtitle = "Detectando objetos y clasificando incidente..."
         )
 
-        // Pequeño delay para que la UI se renderice antes de procesar
         Handler(Looper.getMainLooper()).postDelayed({
             performAIAnalysis()
         }, 300)
     }
 
-    /**
-     * Oculta todos los controles de la interfaz durante el análisis
-     */
     private fun hideControls() {
         binding.apply {
-            // Ocultar botones de acción
             btnSubmitReport.visibility = View.GONE
             btnEditImage.visibility = View.GONE
-
-            // Ocultar campo de descripción
             etDescription.visibility = View.GONE
-
-            // Ocultar resultados de IA (si existen en tu layout)
-            // tvTipoIncidente.visibility = View.GONE
-            // tvNivelRiesgo.visibility = View.GONE
-            // etc.
         }
     }
 
-    /**
-     * Muestra todos los controles después del análisis
-     */
     private fun showControls() {
         binding.apply {
             btnSubmitReport.visibility = View.VISIBLE
             btnEditImage.visibility = View.VISIBLE
             etDescription.visibility = View.VISIBLE
 
-            // Animar la aparición (opcional)
             btnSubmitReport.alpha = 0f
             btnSubmitReport.animate().alpha(1f).setDuration(300).start()
         }
@@ -119,8 +138,6 @@ class ClassificationActivity : AppCompatActivity() {
 
     private fun hideLoading() {
         binding.loadingOverlay.visibility = View.GONE
-
-        // Detener la animación de puntos
         loadingHandler?.removeCallbacks(loadingRunnable ?: return)
     }
 
@@ -168,7 +185,7 @@ class ClassificationActivity : AppCompatActivity() {
         if (imageFile == null || !imageFile!!.exists()) {
             hideLoading()
             Toast.makeText(this, "No se encontró la imagen", Toast.LENGTH_SHORT).show()
-            showControls() // Mostrar controles aunque haya error
+            showControls()
             return
         }
 
@@ -185,14 +202,17 @@ class ClassificationActivity : AppCompatActivity() {
 
                 val response = classificationService.clasificarImagen(imagePart)
 
-                // ✅ Ocultar loading y mostrar controles
                 hideLoading()
-                showControls()
 
                 if (response.isSuccessful && response.body() != null) {
                     classificationData = response.body()!!
                     Log.d("ClassificationActivity", "✅ Clasificación recibida: $classificationData")
                     displayAIResults(classificationData!!)
+
+                    // ✅ Después del análisis, pedir ubicación
+                    requestLocationAfterAnalysis()
+
+                    showControls()
                 } else {
                     val errorBody = response.errorBody()?.string()
                     Log.e("ClassificationActivity", "❌ Error ${response.code()}: $errorBody")
@@ -201,6 +221,7 @@ class ClassificationActivity : AppCompatActivity() {
                         "Error al clasificar: ${response.code()}",
                         Toast.LENGTH_LONG
                     ).show()
+                    showControls()
                 }
 
             } catch (e: java.net.SocketTimeoutException) {
@@ -226,6 +247,97 @@ class ClassificationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Solicita la ubicación después de completar el análisis de IA
+     */
+    private fun requestLocationAfterAnalysis() {
+        when {
+            hasLocationPermissions() -> {
+                Log.d("ClassificationActivity", "✅ Ya tenemos permisos de ubicación")
+                getCurrentLocation()
+            }
+            else -> {
+                Log.d("ClassificationActivity", "📍 Solicitando permisos de ubicación...")
+                locationPermissionLauncher.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                )
+            }
+        }
+    }
+
+    /**
+     * Verifica si tenemos permisos de ubicación
+     */
+    private fun hasLocationPermissions(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+    private fun getCurrentLocation() {
+        if (!hasLocationPermissions()) {
+            Log.w("ClassificationActivity", "No hay permisos para obtener ubicación")
+            return
+        }
+
+        try {
+            showLoading(
+                title = "Obteniendo ubicación",
+                subtitle = "Esto ayudará a las autoridades a localizar el incidente..."
+            )
+
+            val cancellationToken = CancellationTokenSource()
+
+            fusedLocationClient.getCurrentLocation(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                cancellationToken.token
+            ).addOnSuccessListener { location: Location? ->
+                hideLoading()
+
+                if (location != null) {
+                    latitude = location.latitude
+                    longitude = location.longitude
+                    locationObtained = true
+
+                    Log.d("ClassificationActivity", "Ubicación obtenida: $latitude, $longitude")
+                    Toast.makeText(
+                        this,
+                        "Ubicación detectada correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Log.w("ClassificationActivity", "⚠No se pudo obtener ubicación, usando default")
+                    Toast.makeText(
+                        this,
+                        "No se pudo detectar tu ubicación, se usará una aproximada",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }.addOnFailureListener { e ->
+                hideLoading()
+                Log.e("ClassificationActivity", "Error al obtener ubicación: ${e.message}", e)
+                Toast.makeText(
+                    this,
+                    "Error al obtener ubicación. Se usará ubicación por defecto.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+        } catch (e: SecurityException) {
+            hideLoading()
+            Log.e("ClassificationActivity", "Error de seguridad: ${e.message}", e)
+        }
+    }
+
     private fun displayAIResults(data: ClassificationResponse) {
         Log.d("ClassificationActivity", "📊 Mostrando resultados en UI...")
 
@@ -240,7 +352,6 @@ class ClassificationActivity : AppCompatActivity() {
         Log.d("ClassificationActivity", "descripcionIA: ${data.descripcionIA}")
         binding.tvEstimatedPoints.text = "${data.puntosEstimados} Puntos"
 
-        // ✅ Animación de aparición de resultados
         binding.tvTipoIncidente.alpha = 0f
         binding.tvTipoIncidente.animate().alpha(1f).setDuration(400).start()
 
@@ -281,10 +392,7 @@ class ClassificationActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                Log.d(
-                    "ClassificationActivity",
-                    "📝 Creando reporte CON clasificación ya obtenida..."
-                )
+                Log.d("ClassificationActivity", "📝 Creando reporte en ubicación: $latitude, $longitude")
 
                 val requestFile = imageFile!!.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 val imagePart = MultipartBody.Part.createFormData(
@@ -293,19 +401,17 @@ class ClassificationActivity : AppCompatActivity() {
                     requestFile
                 )
 
-                // Descripción completa (usuario + IA)
                 val descripcionCompleta = buildString {
                     append(description)
                     append("\n\n[IA] ")
                     append(classificationData!!.descripcionIA)
                 }
 
-                // ✅ ENVIAR DATOS DE CLASIFICACIÓN YA OBTENIDOS
                 val response = reporteService.crearReporteConClasificacion(
                     idUsu = userId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                     detalleRepo = descripcionCompleta.toRequestBody("text/plain".toMediaTypeOrNull()),
-                    latitud = "-12.046374".toRequestBody("text/plain".toMediaTypeOrNull()),
-                    longitud = "-77.042793".toRequestBody("text/plain".toMediaTypeOrNull()),
+                    latitud = latitude.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
+                    longitud = longitude.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                     idDistrito = "1".toRequestBody("text/plain".toMediaTypeOrNull()),
                     idTipoIncidente = classificationData!!.idTipoIncidente.toString()
                         .toRequestBody("text/plain".toMediaTypeOrNull()),
@@ -361,7 +467,6 @@ class ClassificationActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Limpiar handlers
         loadingHandler?.removeCallbacks(loadingRunnable ?: return)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.greenguard.data.remote
 
 import android.os.Build
+import com.example.greenguard.data.api.GeocodingApi
 import com.example.greenguard.data.dataStore.AuthInterceptor
 import com.example.greenguard.data.dataStore.UserPreferences
 import okhttp3.OkHttpClient
@@ -64,7 +65,17 @@ object RetrofitInstance {
             "http://$LOCAL_IP:$PORT/"
         }
     }
+    object GeocodingClient {
+        private const val BASE_URL = "https://maps.googleapis.com/maps/api/geocode/"
 
+        val api: GeocodingApi by lazy {
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(GeocodingApi::class.java)
+        }
+    }
     private fun isRunningOnEmulator(): Boolean {
         return (Build.FINGERPRINT.startsWith("generic")
                 || Build.FINGERPRINT.lowercase().contains("vbox")

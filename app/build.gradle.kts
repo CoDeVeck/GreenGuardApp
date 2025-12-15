@@ -1,7 +1,10 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("org.jetbrains.kotlin.plugin.parcelize")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -14,8 +17,22 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        val properties = Properties()
+        val localPropertiesFile = project.rootProject.file("local.properties")
+
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { properties.load(it) }
+        }
+
+        val mapsApiKey = properties.getProperty("MAPS_API_KEY") ?: "NO_KEY_FOUND"
+
+        buildConfigField("String", "MAPS_API_KEY", "\"$mapsApiKey\"")
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 
     buildFeatures{
@@ -41,12 +58,15 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    implementation(libs.glide)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.core)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
+    implementation(libs.play.services.location)
     implementation(libs.androidx.camerax.camera2)
     implementation(libs.androidx.camerax.lifecycle)
     implementation(libs.androidx.camerax.view)
