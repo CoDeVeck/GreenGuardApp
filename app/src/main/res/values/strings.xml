@@ -279,7 +279,7 @@
     <string name="notification_seen">Leída</string>
     <string name="notification_today">Hoy</string>
     <string name="notification_yesterday">Ayer</string>
-    <string name="notification_week">Esta Semana</string>
+    <string name="notification_week">Este Mes</string>
 
     <!-- Item Notification -->
     <string name="item_notification_icon">Icono Notification</string>
