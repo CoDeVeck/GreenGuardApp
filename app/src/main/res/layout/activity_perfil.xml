@@ -4,66 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="#F0F2F5"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
 
-        <!-- Header -->
-        <View
-            android:id="@+id/headerBackground"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerContainer"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:background="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="4dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Volver"
-            android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="@id/headerBackground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/headerBackground" />
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back"
+                android:contentDescription="Volver"
+                app:tint="#010101"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
-            android:id="@+id/tvHeaderTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Mi Perfil"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/headerBackground"
-            app:layout_constraintStart_toEndOf="@id/btnBack"
-            app:layout_constraintTop_toTopOf="@id/headerBackground" />
+            <TextView
+                android:id="@+id/tvHeaderTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mi Perfil"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <!-- Profile Card -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
+            app:cardElevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerBackground">
+            app:layout_constraintTop_toBottomOf="@id/headerContainer">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="24dp">
 
-                <!-- Avatar con badge -->
                 <FrameLayout
                     android:id="@+id/avatarContainer"
                     android:layout_width="100dp"
@@ -74,32 +76,22 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ivAvatar"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_user"
-
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
                         app:strokeColor="#4CAF50"
                         app:strokeWidth="3dp" />
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/ic_launcher_background"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_check"
-                        app:tint="@android:color/white" />
+
                 </FrameLayout>
 
-                <!-- Nombre -->
                 <TextView
                     android:id="@+id/tvUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:text="María González"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
@@ -108,7 +100,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/avatarContainer" />
 
-                <!-- Fecha de miembro -->
                 <LinearLayout
                     android:id="@+id/memberSinceContainer"
                     android:layout_width="wrap_content"
@@ -123,8 +114,9 @@
                     <ImageView
                         android:layout_width="14dp"
                         android:layout_height="14dp"
-                        android:src="@drawable/ic_launcher_background"
-                        app:tint="#757575" />
+                        android:src="@drawable/ic_calendario"
+                        app:tint="#757575"
+                        android:contentDescription="Icono de miembro"/>
 
                     <TextView
                         android:id="@+id/tvMemberSince"
@@ -138,15 +130,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Estadísticas Section -->
         <TextView
             android:id="@+id/tvStatsTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:text="Estadísticas"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Estadísticas y Logros"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -154,21 +144,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardProfile" />
 
-        <!-- Stats Grid -->
         <LinearLayout
             android:id="@+id/statsGrid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
             android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvStatsTitle">
 
-            <!-- Reportes -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -188,8 +175,9 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_launcher_background"
-                        app:tint="#4CAF50" />
+                        android:src="@drawable/ic_reporte"
+                        app:tint="#4CAF50"
+                        android:contentDescription="Icono de reportes"/>
 
                     <TextView
                         android:id="@+id/tvReportsCount"
@@ -205,13 +193,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Reportes"
+                        android:text="Reportes Totales"
                         android:textColor="#616161"
                         android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Puntos -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -231,8 +218,9 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_launcher_background"
-                        app:tint="#FFA000" />
+                        android:src="@drawable/ic_star"
+                        app:tint="#FFA000"
+                        android:contentDescription="Icono de puntos"/>
 
                     <TextView
                         android:id="@+id/tvPointsCount"
@@ -248,34 +236,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Puntos"
+                        android:text="Puntos Acumulados"
                         android:textColor="#616161"
                         android:textSize="13sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Achievement Cards Grid -->
         <LinearLayout
             android:id="@+id/achievementsRow1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
+            android:layout_height="90dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/statsGrid">
 
-            <!-- Puntos Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#FFF9C4"
+                app:cardBackgroundColor="#E8F5E9"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp">
 
@@ -289,8 +274,9 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_launcher_background"
-                        app:tint="#F57F17" />
+                        android:src="@drawable/ic_check"
+                        app:tint="#388E3C"
+                        android:contentDescription="Icono de resuelto"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -300,9 +286,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvResolvedCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1,250"
+                            android:text="12"
                             android:textColor="@android:color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -310,14 +297,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Puntos"
+                            android:text="Reportes Resueltos"
                             android:textColor="#616161"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Cupones Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="80dp"
@@ -337,8 +323,9 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_launcher_background"
-                        app:tint="#E64A19" />
+                        android:src="@drawable/ic_cupon"
+                        app:tint="#E64A19"
+                        android:contentDescription="Icono de cupón"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -348,6 +335,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvCuponesCanjeados"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="5"
@@ -358,7 +346,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cupones canjeados"
+                            android:text="Cupones Canjeados"
                             android:textColor="#616161"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -366,217 +354,21 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Row 2 of achievements -->
-        <LinearLayout
-            android:id="@+id/achievementsRow2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/achievementsRow1">
-
-            <!-- Reportes realizados -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="#E3F2FD"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_launcher_background"
-                        app:tint="#1976D2" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Reportes realizados"
-                            android:textColor="#616161"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Reportes Resueltos -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="#E8F5E9"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_launcher_background"
-                        app:tint="#388E3C" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Reportes Resueltos"
-                            android:textColor="#616161"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-
-        <!-- Configuración Section -->
-        <TextView
-            android:id="@+id/tvConfigTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:text="Configuración"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/achievementsRow2" />
-
-        <!-- Settings Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardSettings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvConfigTitle">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingVertical="8dp">
-
-                <!-- Preferencias Header -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:text="Preferencias"
-                    android:textColor="#757575"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <!-- Notificaciones -->
-                <include layout="@layout/item_setting_toggle" />
-
-                <!-- Autenticación Biométrica -->
-                <include layout="@layout/item_setting_toggle" />
-
-                <!-- Idioma -->
-                <include layout="@layout/item_setting_navigation" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginVertical="8dp"
-                    android:background="#E0E0E0" />
-
-                <!-- Cuenta Header -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:text="Cuenta"
-                    android:textColor="#757575"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <!-- Privacidad y Datos -->
-                <include layout="@layout/item_setting_navigation" />
-
-                <!-- Centro de Ayuda -->
-                <include layout="@layout/item_setting_navigation" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Cerrar Sesión Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="80dp"
             android:text="Cerrar Sesión"
             android:textColor="#D32F2F"
-            app:icon="@drawable/ic_close"
+            app:icon="@drawable/ic_back"
             app:iconGravity="start"
             app:iconTint="#D32F2F"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardSettings" />
+            app:layout_constraintTop_toBottomOf="@id/achievementsRow1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

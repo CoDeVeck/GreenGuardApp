@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvTituloPantalla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detalle de Cupón"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:paddingBottom="15dp"/>
+
+        <!-- Imagen Logo -->
+        <ImageView
+            android:id="@+id/imgLogoCupon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_cupon"
+            android:background="@drawable/bg_circle_white"
+            android:padding="20dp" />
+
+        <!-- Título Cupón -->
+        <TextView
+            android:id="@+id/tvNombreCupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20% de Descuento"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:paddingTop="10dp" />
+
+        <!-- Subtítulo -->
+        <TextView
+            android:id="@+id/tvDescripcionCupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eco-Descuento de Bienvenida"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:textColor="#666"
+            android:paddingBottom="20dp" />
+
+        <!-- Contenedor QR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:id="@+id/imgQrCupon"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:src="@drawable/ic_launcher_background"
+                android:scaleType="centerCrop"/>
+        </LinearLayout>
+
+        <!-- Código + Botón copiar -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvCodigoCupon"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="GG20ECOSAVE"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnCopiar"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Copiar"
+                android:background="@drawable/bg_button_green"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- Fechas -->
+        <!-- Fechas -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:padding="15dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Generado el:"
+                android:textColor="#777"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tvFechaGenerado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 de Julio, 2024"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Válido hasta:"
+                android:textColor="#777"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tvFechaValido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 de Agosto, 2024"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+
+        <!-- Tienda -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_tienda"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:id="@+id/tvNombreTienda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tienda Eco-Friendly"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tvDireccionTienda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Av. Siempre Viva 123, Ciudad Verde"
+                    android:textColor="#888"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Condiciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_cupon"/>
+
+            <TextView
+                android:id="@+id/tvCondiciones"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="Válido para una sola compra. No acumulable con otras promociones. Aplicable solo en productos seleccionados."
+                android:textColor="#666"/>
+        </LinearLayout>
+
+        <!-- BOTÓN USAR -->
+        <Button
+            android:id="@+id/btnUsarTienda"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Usar en tienda"
+            android:background="@drawable/bg_button_green"
+            android:textColor="#fff"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+    </LinearLayout>
+</ScrollView>

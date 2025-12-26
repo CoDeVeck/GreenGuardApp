@@ -1,6 +1,7 @@
 package com.example.greenguard.data.api
 
 import com.example.greenguard.domain.model.dto.LoginResponse
+import com.example.greenguard.domain.model.dto.PerfilUsuarioDTO
 import com.example.greenguard.domain.model.dto.RegisterResponse
 import com.example.greenguard.domain.model.entities.Usuario
 import okhttp3.MultipartBody
@@ -12,6 +13,7 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface UserAuth {
     @FormUrlEncoded
@@ -28,7 +30,7 @@ interface UserAuth {
     ): Usuario
 
     @Multipart
-    @POST("register")
+    @POST("auth/register")
     suspend fun registerUser(
         @Part("nomUsu") nombre: RequestBody,
         @Part("apePatUsu") apellidoPaterno: RequestBody,
@@ -41,4 +43,7 @@ interface UserAuth {
         @Part("passwordUsu") password: RequestBody,
         @Part imagenUrl: MultipartBody.Part?
     ): RegisterResponse
+
+    @GET("cliente/perfil/{idUsuario}")
+    suspend fun obtenerPerfil(@Path("idUsuario") idUsuario: Int): PerfilUsuarioDTO
 }

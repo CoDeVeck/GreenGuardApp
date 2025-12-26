@@ -7,6 +7,7 @@ data class UsuarioCupon(
     val codigoCupon: String? = null,
     val qrVerificationCode: String? = null,
     val fechaCanje: String? = null,
+    val puntosUsuario: Int? = null,
     val canjeado: Boolean? = null,
     val fechaUso: String? = null,
     val estado: String? = null // Enum como String

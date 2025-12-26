@@ -1,7 +1,7 @@
 package com.example.greenguard.domain.model.entities
 
 data class Reporte(
-    val idReporte: Int? = null,
+    val idReporte: Int,
     val numReport: String? = null,
     val usuario: Usuario? = null,
     val detalleRepo: String? = null,
