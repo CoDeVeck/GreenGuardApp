@@ -58,26 +58,22 @@ class LoginActivity : AppCompatActivity(), CoroutineScope {
         setupListeners()
     }
 
-    // ⚠️ NUEVO: Función para verificar si el token está expirado
     private fun isTokenExpired(token: String): Boolean {
         try {
             val parts = token.split(".")
             if (parts.size != 3) return true
 
-            // Decodificar payload
             val payload = String(android.util.Base64.decode(parts[1], android.util.Base64.URL_SAFE))
             val json = org.json.JSONObject(payload)
             val exp = json.getLong("exp")
 
-            // Comparar con tiempo actual (en segundos)
             val now = System.currentTimeMillis() / 1000
 
-            // Agregar margen de 5 minutos (300 segundos) para renovar antes
             return now >= (exp - 300)
 
         } catch (e: Exception) {
             e.printStackTrace()
-            return true // Si hay error, considerar expirado
+            return true
         }
     }
 

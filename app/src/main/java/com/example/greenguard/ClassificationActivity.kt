@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -32,6 +33,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.util.Locale
 
 class ClassificationActivity : AppCompatActivity() {
 
@@ -97,9 +99,10 @@ class ClassificationActivity : AppCompatActivity() {
         hideControls()
         loadImage()
         setupListeners()
+        binding.tvLocation.text = "Detectando ubicación..."
 
         showLoading(
-            title = "🤖 Analizando con IA",
+            title = "Analizando con IA",
             subtitle = "Detectando objetos y clasificando incidente..."
         )
 
@@ -191,7 +194,7 @@ class ClassificationActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                Log.d("ClassificationActivity", "📤 Enviando imagen (${imageFile!!.length() / 1024}KB) a IA...")
+                Log.d("ClassificationActivity", "Enviando imagen (${imageFile!!.length() / 1024}KB) a IA...")
 
                 val requestFile = imageFile!!.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 val imagePart = MultipartBody.Part.createFormData(
@@ -308,14 +311,21 @@ class ClassificationActivity : AppCompatActivity() {
                     longitude = location.longitude
                     locationObtained = true
 
-                    Log.d("ClassificationActivity", "Ubicación obtenida: $latitude, $longitude")
+                    Log.d("ClassificationActivity", " Ubicación obtenida: $latitude, $longitude")
+
+                    getAddressFromLocation(latitude, longitude)
+
                     Toast.makeText(
                         this,
                         "Ubicación detectada correctamente",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Log.w("ClassificationActivity", "⚠No se pudo obtener ubicación, usando default")
+                    Log.w(
+                        "ClassificationActivity",
+                        "⚠️ No se pudo obtener ubicación, usando default"
+                    )
+                    binding.tvLocation.text = "📍 Ubicación no disponible"
                     Toast.makeText(
                         this,
                         "No se pudo detectar tu ubicación, se usará una aproximada",
@@ -386,7 +396,7 @@ class ClassificationActivity : AppCompatActivity() {
         }
 
         showLoading(
-            title = "📤 Enviando reporte",
+            title = "Enviando reporte",
             subtitle = "Guardando tu reporte en el servidor..."
         )
 
@@ -462,6 +472,63 @@ class ClassificationActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+        }
+    }
+    private fun getAddressFromLocation(lat: Double, lon: Double) {
+        try {
+            val geocoder = Geocoder(this, Locale.getDefault())
+
+            // Para Android 33+ (Tiramisu)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                geocoder.getFromLocation(lat, lon, 1) { addresses ->
+                    runOnUiThread {
+                        if (addresses.isNotEmpty()) {
+                            val address = addresses[0]
+                            val locationText = buildLocationText(address)
+                            binding.tvLocation.text = locationText
+                            Log.d("ClassificationActivity", "📍 Dirección: $locationText")
+                        } else {
+                            binding.tvLocation.text = "📍 Ubicación detectada"
+                        }
+                    }
+                }
+            } else {
+                // Para versiones anteriores
+                @Suppress("DEPRECATION")
+                val addresses = geocoder.getFromLocation(lat, lon, 1)
+                if (!addresses.isNullOrEmpty()) {
+                    val address = addresses[0]
+                    val locationText = buildLocationText(address)
+                    binding.tvLocation.text = locationText
+                    Log.d("ClassificationActivity", "📍 Dirección: $locationText")
+                } else {
+                    binding.tvLocation.text = "📍 Ubicación detectada"
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("ClassificationActivity", "Error al obtener dirección: ${e.message}", e)
+            binding.tvLocation.text = "📍 Lat: ${String.format("%.6f", lat)}, Lon: ${String.format("%.6f", lon)}"
+        }
+    }
+
+    private fun buildLocationText(address: android.location.Address): String {
+        return buildString {
+            // Nombre de la calle + número
+            address.thoroughfare?.let { append("$it ") }
+            address.subThoroughfare?.let { append("$it, ") }
+
+            // Distrito/Localidad
+            address.subLocality?.let { append("$it, ") }
+
+            // Ciudad
+            address.locality?.let { append(it) }
+
+            // Si está vacío, mostrar algo más general
+            if (isEmpty()) {
+                address.adminArea?.let { append(it) }
+            }
+        }.ifEmpty {
+            "📍 ${String.format("%.6f", address.latitude)}, ${String.format("%.6f", address.longitude)}"
         }
     }
 

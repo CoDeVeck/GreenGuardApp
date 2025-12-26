@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
-    private const val LOCAL_IP = "192.168.1.10"
+    private const val LOCAL_IP = "192.168.1.8"
     private const val PORT = "8080"
 
     /**

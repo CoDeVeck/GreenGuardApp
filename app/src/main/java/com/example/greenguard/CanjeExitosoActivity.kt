@@ -48,7 +48,7 @@ class CanjeExitosoActivity : AppCompatActivity() {
         }
 
         binding.btnCerrar.setOnClickListener {
-            finish() // solo cierra la activity actual
+            finish()
         }
 
     }
